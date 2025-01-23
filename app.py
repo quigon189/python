@@ -1,8 +1,9 @@
 import telebot
 from kanobu import kanobu
 from random import choice
+import os
 
-token = "7527997220:AAGvFq-ynE_QHPOwW5qnnLceqqhuRD_QCrI"
+token = os.getenv("TOKEN")
 
 bot = telebot.TeleBot(token, parse_mode=None) 
 
