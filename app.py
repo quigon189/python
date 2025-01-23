@@ -1,17 +1,15 @@
-import telebot
-from kanobu import kanobu
-from random import choice
 import os
+import telebot
 
+from kanobu import kanobu, knb_list
+from random import choice
+from dotenv import load_dotenv
+
+load_dotenv()
 token = os.getenv("TOKEN")
 
 bot = telebot.TeleBot(token, parse_mode=None) 
 
-k = "Камень"
-n = "Ножницы"
-b = "Бумага"
-
-knb_list = [k, n, b]
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):

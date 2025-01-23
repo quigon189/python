@@ -1,22 +1,25 @@
+K = "Камень"
+N = "Ножницы"
+B = "Бумага"
+
+knb_list = [K, N, B]
+
 def kanobu(player, computer):
-    k = "Камень"
-    n = "Ножницы"
-    b = "Бумага"
 
     if computer == player:
         return "Ничья"
-    elif player == n:
-        if computer == b:
+    elif player == N:
+        if computer == B:
             return "Игрок победил"
-        elif computer == k:
+        elif computer == K:
             return "Компьютер победил"
-    elif player == k:
-        if computer == n:
+    elif player == K:
+        if computer == N:
             return "Игрок победил"
-        elif computer == b:
+        elif computer == B:
             return "Компьютер победил"
-    elif player == n:
-        if computer == b:
+    elif player == N:
+        if computer == B:
             return "Игрок победил"
         elif computer == "Камемь":
             return "Компьютер победил"
