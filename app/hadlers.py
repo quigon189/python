@@ -1,18 +1,9 @@
-import os
-import telebot
+from app import bot
+from app.games import kanobu, return_knb
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from random import choice
-from dotenv import load_dotenv
-
-from kanobu import kanobu, knb_list
-
-load_dotenv()
-token = os.getenv("TOKEN")
-
-bot = telebot.TeleBot(token, parse_mode=None) 
 
 state = {}
-
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -39,6 +30,12 @@ def set_state_exit(message):
 	state[user_id] = "start"
 	bot.send_message(message.chat.id, "Хорошо сыграли!")
 
+@bot.message_handler(text=["игра", "Игра", "Games"])
+def show_games(message):
+	markup = InlineKeyboardMarkup()
+	markup.add(InlineKeyboardButton("Играем!", callback_data="game"))
+	markup.add(InlineKeyboardButton("Не хочу", callback_data="no"))
+	bot.send_message(message.chat.id, "Давай сыграем!", reply_markup=markup)
 
 @bot.message_handler(func=lambda m: True)
 def game_all(message):
@@ -46,13 +43,11 @@ def game_all(message):
 	
 	if user_state == "knb":
 		player = message.text
-		if player in knb_list:
-			computer = choice(knb_list)
-			reply_text = f"Компьютер выбрал {computer}\n{kanobu(player=player, computer=computer)}"
+		if player in return_knb():
+			comp_choice, who_win = kanobu(player)
+			reply_text = f"{comp_choice}\n{who_win}"
 			bot.reply_to(message, reply_text)
 		else:
 			bot.reply_to(message, "Выбери: Камень Ножницы Бамага")
 	elif user_state == "start":
 		bot.reply_to(message,"Для выбора игры введите команду /games")
-
-bot.infinity_polling()
